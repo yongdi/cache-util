@@ -1,17 +1,16 @@
-package com.jkys.cache.cache;
+package com.voyg.cacheutil.cache;
 
-import com.jkys.cache.biz.Constant;
+import com.voyg.cacheutil.biz.Constant;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
- * <strong>service实现类</strong><br>
+ * <strong>service</strong><br>
  *
- * @author luyu
+ * @author voyg.net
  * @since 16-10-26
  */
 @Service

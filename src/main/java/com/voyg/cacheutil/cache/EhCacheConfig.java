@@ -1,6 +1,6 @@
-package com.jkys.cache.cache;
+package com.voyg.cacheutil.cache;
 
-import com.jkys.cache.biz.Constant;
+import com.voyg.cacheutil.biz.Constant;
 import net.sf.ehcache.config.CacheConfiguration;
 import org.joda.time.DateTimeConstants;
 import org.springframework.cache.CacheManager;
@@ -30,18 +30,18 @@ import org.springframework.context.annotation.Configuration;
  *        memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。     
  *        clearOnFlush：内存数量最大时是否清除。  
  *
- * @author luyu
+ * @author voyg.net
  * @since 2016/9/20
  */
 @Configuration
 @EnableCaching
-@ComponentScan("com.jkys.cache.cache")
+@ComponentScan("com.voyg.cacheutil.cache")
 public class EhCacheConfig implements CachingConfigurer {
 	private volatile static net.sf.ehcache.CacheManager instance;
 
 	private final static String CACHE_POLICY = "LRU";
 
-    //单例模式cacheManager，可以改进为enum单例
+    //singleton cachemanager
     @Bean(name = "cacheManager")
 	public net.sf.ehcache.CacheManager getInstance(){
 		if (instance==null){
@@ -61,8 +61,8 @@ public class EhCacheConfig implements CachingConfigurer {
 		cacheConfiguration.setEternal(false);
 		cacheConfiguration.setMaxEntriesLocalHeap(1000);
 		cacheConfiguration.setMemoryStoreEvictionPolicy(CACHE_POLICY);
-		cacheConfiguration.setTimeToIdleSeconds(DateTimeConstants.SECONDS_PER_HOUR * 6); //6小时活跃
-		cacheConfiguration.setTimeToLiveSeconds(DateTimeConstants.SECONDS_PER_HOUR * 24);//24小时存活
+        cacheConfiguration.setTimeToIdleSeconds(DateTimeConstants.SECONDS_PER_HOUR * 6); //6 hours active
+        cacheConfiguration.setTimeToLiveSeconds(DateTimeConstants.SECONDS_PER_HOUR * 24);//24 hours live
 
 		net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
 		config.addCache(cacheConfiguration);
@@ -77,8 +77,8 @@ public class EhCacheConfig implements CachingConfigurer {
 
 	@Override
     public CacheManager cacheManager() {
-		//这里给@Cachenable使用，由spring调用
-		return new EhCacheCacheManager(ehCacheManager());
+        //for @Cachenable, call by spring
+        return new EhCacheCacheManager(ehCacheManager());
     }
 
 	@Override

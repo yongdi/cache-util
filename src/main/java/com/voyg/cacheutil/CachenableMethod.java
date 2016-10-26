@@ -1,17 +1,17 @@
-package com.jkys.cache;
+package com.voyg.cacheutil;
 
-import com.jkys.cache.biz.Constant;
+import com.voyg.cacheutil.biz.Constant;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by luyu on 16-10-26.
+ * Created by voyg.net on 16-10-26.
  */
 @Component
 public class CachenableMethod {
     @Cacheable(value = Constant.CACHE_NAME)
     public String getMethod(){
-        System.out.println("★★★★★★★★★★★★★★★★★★缓存未命中，进入了方法体内★★★★★★★★★★★★★★★★★★★");
+        System.out.println("★★★★★★★★★★★★★★★★★★no cacheing, go in method★★★★★★★★★★★★★★★★★★★");
         return "data from method";
     }
 }

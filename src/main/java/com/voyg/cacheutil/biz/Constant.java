@@ -1,8 +1,8 @@
-package com.jkys.cache.biz;
+package com.voyg.cacheutil.biz;
 
 /**
- * Created by luyu on 16-10-26.
+ * Created by voyg.net on 16-10-26.
  */
 public interface Constant {
-    String CACHE_NAME = "jkys-test-cache";
+    String CACHE_NAME = "voyg-test-cache";
 }

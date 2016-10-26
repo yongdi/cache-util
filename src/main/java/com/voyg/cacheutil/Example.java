@@ -1,17 +1,17 @@
-package com.jkys.cache;
+package com.voyg.cacheutil;
 
-import com.jkys.cache.cache.CacheService;
+import com.voyg.cacheutil.cache.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
- * <strong>缓存范例</strong><br>
- * 可以缓存数据，也可以用@Cacheable缓存方法。关于此类注解请参考如下链接<br>
+ * <strong>test example</strong><br>
+ * work for both data and method(by @Cacheable). learn more about this annotation by follow link:<br>
  *
  * @see <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html">http://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html</a>
- * @author luyu
+ * @author voyg.net
  * @since 16-10-26
  */
 @Component
@@ -31,35 +31,35 @@ public class Example {
 
     }
 
-    //测试数据缓存
+    //test data cache
     void testData(){
-        //第一次，硬读取
+        //1st time, hard read
         System.out.println("data is: " + getData());
-        //第二次，从缓存读取
+        //2nd time, read from cache
         System.out.println("data is: " + getData());
-        //第三次，从缓存读取
+        //3rd time，read from cache
         System.out.println("data is: " + getData());
     }
 
-    //测试方法缓存
+    //test method cache
     void testMethod(){
-        //第一次，会进入方法体内
+        //1st time, will entry method
         System.out.println(cachenableMethod.getMethod());
-        //第二次，直接返回缓存数据，不进入方法
+        //2nd time, directly return without entring method
         System.out.println(cachenableMethod.getMethod());
-        //第三次，直接返回缓存数据，不进入方法
+        //3rd time, directly return without entring method
         System.out.println(cachenableMethod.getMethod());
     }
 
     private String getData(){
         String result = (String) cacheService.get(KEY);
         if (result == null){
-            System.out.println("第一次读取，未命中缓存，开始hard read...");
+            System.out.println("1st, begin hard read...");
             result = "soft read";
-            cacheService.put(KEY, result);//缓存数据
+            cacheService.put(KEY, result);//caching
             return result;
         }
-        System.out.println("命中缓存，开始soft read...");
+        System.out.println("cache hited，begin soft read...");
         return result;
     }
 }
