@@ -15,6 +15,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * <strong>cache config</strong><br>
  * name:缓存名称。     
@@ -38,8 +42,25 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.voyg.cacheutil.cache")
 public class EhCacheConfig implements CachingConfigurer {
 	private volatile static net.sf.ehcache.CacheManager instance;
-
 	private final static String CACHE_POLICY = "LRU";
+	private static final int TTL;
+	
+    static {
+        try (InputStream is = EhCacheConfig.class.getClassLoader()
+                .getResourceAsStream("EhCache.properties")) {
+            if (is == null) {
+                TTL = DateTimeConstants.SECONDS_PER_HOUR * 6;//6小时 6hours
+                System.out.println("=========EhCache use default config=========");
+            } else {
+                Properties properties = new Properties();
+                properties.load(is);
+                TTL = Integer.valueOf(properties.getProperty("timeout.second"));
+                System.out.println("=========EhCache use custom config=========");
+            }
+        } catch (IOException e) {
+            throw new Error("No such file: EhcacheConfig.properties");
+        }
+    }	
 
     //singleton cachemanager
     @Bean(name = "cacheManager")
@@ -61,8 +82,8 @@ public class EhCacheConfig implements CachingConfigurer {
 		cacheConfiguration.setEternal(false);
 		cacheConfiguration.setMaxEntriesLocalHeap(1000);
 		cacheConfiguration.setMemoryStoreEvictionPolicy(CACHE_POLICY);
-        cacheConfiguration.setTimeToIdleSeconds(DateTimeConstants.SECONDS_PER_HOUR * 6); //6 hours active
-        cacheConfiguration.setTimeToLiveSeconds(DateTimeConstants.SECONDS_PER_HOUR * 24);//24 hours live
+        //cacheConfiguration.setTimeToIdleSeconds(DateTimeConstants.SECONDS_PER_HOUR * 6); //6 hours active
+        cacheConfiguration.setTimeToLiveSeconds(TTL);
 
 		net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
 		config.addCache(cacheConfiguration);
