@@ -27,7 +27,8 @@ public class EHCacheServiceImpl implements CacheService {
 
 	@Override
 	public Object get(String key) {
-		if (cacheManager.getCache(Constant.CACHE_NAME).isKeyInCache(key)) {
+		if (cacheManager.getCache(Constant.CACHE_NAME).isKeyInCache(key) &&
+                       cacheManager.getCache(CacheConstant.CACHE_NAME).get(key) != null) {
 			return cacheManager.getCache(Constant.CACHE_NAME).get(key).getObjectValue();
 		}else {
 			return null;
