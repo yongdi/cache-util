@@ -13,7 +13,7 @@ public interface CacheService {
 	 * @param key
 	 * @param value
 	 */
-	public void put(String key, Object value);
+	void put(String key, Object value);
 
 	/**
 	 * get cache
@@ -21,17 +21,17 @@ public interface CacheService {
 	 * @param key
 	 * @return
 	 */
-	public Object get(String key);
+	Object get(String key);
 
 	/**
 	 * clear all
 	 *
 	 * @return
 	 */
-	public void removeAll();
+	void removeAll();
 
 	/**
 	 * <strong>remove someone</strong><br>
 	 */
-	public void remove(String key);
+	void remove(String key);
 }
